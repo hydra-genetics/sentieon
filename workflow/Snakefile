@@ -4,6 +4,7 @@ __email__ = "hanna.soderstrom@gu.se"
 __license__ = "GPL-3"
 
 include: "rules/common.smk"
+include: "rules/sentieon.smk"
 
 report: "report/workflow.rst"
 

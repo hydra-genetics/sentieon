@@ -1,3 +1,6 @@
+# vim: syntax=python tabstop=4 expandtab
+# coding: utf-8
+
 __author__ = "Hanna Soderstrom"
 __copyright__ = "Copyright 2023, Hanna Soderstrom"
 __email__ = "hanna.soderstrom@gu.se"
@@ -42,9 +45,22 @@ wildcard_constraints:
     type="N|T|R",
 
 
+if config.get("trimmer_software", "None") == "fastp_pe":
+    alignment_input = lambda wilcards: [
+        "prealignment/fastp_pe/{sample}_{flowcell}_{lane}_{barcode}_{type}_fastq1.fastq.gz",
+        "prealignment/fastp_pe/{sample}_{flowcell}_{lane}_{barcode}_{type}_fastq2.fastq.gz",
+    ]
+elif config.get("trimmer_software", "None") == "None":
+    alignment_input = lambda wildcards: [
+        get_fastq_file(units, wildcards, "fastq1"),
+        get_fastq_file(units, wildcards, "fastq2"),
+    ]
+
+
 def compile_output_list(wildcards):
-    return [
-        "sentieon/dummy/%s_%s.dummy.txt" % (sample, t)
+        output_files = [
+        "sentieon/dedup/{}_{}_DEDUP.bam".format(sample, t)
         for sample in get_samples(samples)
         for t in get_unit_types(units, sample)
     ]
+    return output_files
