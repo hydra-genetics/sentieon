@@ -10,7 +10,7 @@ rule sentieon_bwa_mem:
     output:
         bam = "sentieon/bwa_mem/{sample}_{flowcell}_{lane}_{barcode}_{type}.bam", #FIXME Change to temp output
     params:
-        extra=config.get("sentieon_sentieon", {}).get("extra", ""),
+        extra=config.get("sentieon", {}).get("extra", ""),
         reference=config.get("sentieon", {}).get("reference", ""),
         sentieon=config.get("sentieon", {}).get("sentieon", ""),
     log:
@@ -18,7 +18,7 @@ rule sentieon_bwa_mem:
     benchmark:
         repeat(
             "sentieon/bwa_mem/{sample}_{flowcell}_{lane}_{barcode}_{type}.output.benchmark.tsv",
-            config.get("sentieon_sentieon", {}).get("benchmark_repeats", 1)
+            config.get("sentieon", {}).get("benchmark_repeats", 1)
         )
     threads: config.get("sentieon", {}).get("threads", config["default_resources"]["threads"])
     resources:
