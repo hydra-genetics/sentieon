@@ -55,7 +55,7 @@ elif config.get("trimmer_software", "None") == "None":
 
 
 def compile_output_list(wildcards):
-        output_files = [
+    output_files = [
         "sentieon/dedup/{}_{}_DEDUP.bam".format(sample, t)
         for sample in get_samples(samples)
         for t in get_unit_types(units, sample)
