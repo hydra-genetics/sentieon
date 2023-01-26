@@ -152,3 +152,43 @@ rule qualcal:
         "{rule}: Calculate recalibration table of {input.bam} using Sentieon QualCal algorithm"
     shell:
         "{params.sentieon} driver -t {threads} -r {params.reference} -i {input.bam} --algo QualCal -k {params.mills} -k {params.dbsnp} {output}"
+
+rule tnscope:
+    input:
+        tumorbam="sentieon/realign/{sample}_T_REALIGNED.bam",
+        normalbam="sentieon/realign/{sample}_N_REALIGNED.bam",
+        tumortable="sentieon/qualcal/{sample}_T_RECAL_DATA.TABLE",
+        normaltable="sentieon/qualcal/{sample}_N_RECAL_DATA.TABLE",
+    output:
+        tnscope = "sentieon/tnscope/{sample}_TNscope_tn.vcf",
+        tnscope_bam = "sentieon/tnscope/{sample}_REALIGNED_realignedTNscope.bam",
+    params:
+        extra=config.get("sentieon", {}).get("extra", ""),
+        reference=config.get("sentieon", {}).get("reference", ""),
+        sentieon=config.get("sentieon", {}).get("sentieon", ""),
+        callsettings=config.get("sentieon", {}).get("tnscope_settings", ""),
+    log:
+        "sentieon/tnscope/{sample}.output.log",
+    benchmark:
+        repeat(
+            "sentieon/tnscope/{sample}.output.benchmark.tsv",
+            config.get("sentieon", {}).get("benchmark_repeats", 1)
+        )
+    threads: config.get("tnscope", {}).get("threads", config["default_resources"]["threads"])
+    resources:
+        mem_mb=config.get("sentieon", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
+        mem_per_cpu=config.get("sentieon", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
+        partition=config.get("sentieon", {}).get("partition", config["default_resources"]["partition"]),
+        threads=config.get("tnscope", {}).get("threads", config["default_resources"]["threads"]),
+        time=config.get("sentieon", {}).get("time", config["default_resources"]["time"]),
+    container:
+        config.get("sentieon", {}).get("container", config["default_container"])
+    conda:
+        "../envs/sentieon.yaml"
+    message:
+        "{rule}: Call SNVs and structural variants in {input.tumorbam} using matched normal {input.normalbam} using Sentieon TNScope"
+    shell:
+        "{params.sentieon} driver -t {threads} -r {params.reference} "
+            "-i {input.tumorbam} -q {input.tumortable} -i {input.normalbam} -q {input.normaltable} "
+            "--algo TNscope --tumor_sample {sample}_T --normal_sample {sample}_N --bam_output {output.tnscope_bam} "
+            "{params.callsettings} {output.tnscope}"
