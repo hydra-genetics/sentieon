@@ -86,9 +86,7 @@ The following output files should be targeted via another rule:
 | File | Description |
 |---|---|
 | `sentieon/realign/{sample}_{type}_REALIGNED.bam` | Aligned data, duplicates removed and indels realigned |
-|---|---|
 | `sentieon/qualcal/{sample}_{type}_RECAL_DATA.TABLE` | Recalibration table |
-|---|---|
 | `sentieon/tnscope/{sample}_TNscope_tn.vcf` | Output vcf |
 
 
