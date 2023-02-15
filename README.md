@@ -14,7 +14,7 @@
 
 ## :speech_balloon: Introduction
 
-The module consists of alignment  ....
+The module consists of tools from Sentieon, including alignment, duplicate reads removal, indel realignment, recalibration table calculation and TNScope SNV/structural variants caller.
 
 ## :heavy_exclamation_mark: Dependencies
 
@@ -65,12 +65,12 @@ To use this module in your workflow, follow the description in the
 Add the module to your `Snakefile` like so:
 
 ```bash
-module prealignment:
+module sentieon:
     snakefile:
         github(
-            "sentieon",
+            "hydra-genetics/sentieon",
             path="workflow/Snakefile",
-            tag="1.0.0",
+            tag="add_tools",
         )
     config:
         config
@@ -85,6 +85,11 @@ The following output files should be targeted via another rule:
 
 | File | Description |
 |---|---|
-| `sentieon/PATH/FILE` | DESCRIPTION |
+| `sentieon/realign/{sample}_{type}_REALIGNED.bam` | Aligned data, duplicates removed and indels realigned |
+|---|---|
+| `sentieon/qualcal/{sample}_{type}_RECAL_DATA.TABLE` | Recalibration table |
+|---|---|
+| `sentieon/tnscope/{sample}_TNscope_tn.vcf` | Output vcf |
+
 
 ## :judge: Rule Graph
