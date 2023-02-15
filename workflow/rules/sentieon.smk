@@ -8,7 +8,7 @@ rule bwa_mem:
     input:
         reads=lambda wildcards: alignment_input(wildcards),
     output:
-        bam = "sentieon/bwa_mem/{sample}_{flowcell}_{lane}_{barcode}_{type}.bam", #FIXME Change to temp output
+        bam=temp("sentieon/bwa_mem/{sample}_{flowcell}_{lane}_{barcode}_{type}.bam"),
     params:
         extra=config.get("sentieon", {}).get("extra", ""),
         reference=config.get("sentieon", {}).get("reference", ""),
@@ -46,7 +46,7 @@ rule dedup:
             for u in get_units(units, wildcards)
         ],
     output:
-        "sentieon/dedup/{sample}_{type}_DEDUP.bam",
+        temp("sentieon/dedup/{sample}_{type}_DEDUP.bam"),
         "sentieon/dedup/{sample}_{type}_DEDUP.txt",
     params:
         extra=config.get("sentieon", {}).get("extra", ""),
