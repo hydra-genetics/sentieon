@@ -160,8 +160,8 @@ rule tnscope:
         tumortable="sentieon/qualcal/{sample}_T_RECAL_DATA.TABLE",
         normaltable="sentieon/qualcal/{sample}_N_RECAL_DATA.TABLE",
     output:
-        tnscope = "sentieon/tnscope/{sample}_TNscope_tn.vcf",
-        tnscope_bam = "sentieon/tnscope/{sample}_REALIGNED_realignedTNscope.bam",
+        tnscope="sentieon/tnscope/{sample}_TNscope_tn.vcf",
+        tnscope_bam="sentieon/tnscope/{sample}_REALIGNED_realignedTNscope.bam",
     params:
         extra=config.get("sentieon", {}).get("extra", ""),
         reference=config.get("sentieon", {}).get("reference", ""),
@@ -190,5 +190,5 @@ rule tnscope:
     shell:
         "{params.sentieon} driver -t {threads} -r {params.reference} "
             "-i {input.tumorbam} -q {input.tumortable} -i {input.normalbam} -q {input.normaltable} "
-            "--algo TNscope --tumor_sample {sample}_T --normal_sample {sample}_N --bam_output {output.tnscope_bam} "
+            "--algo TNscope --tumor_sample {wildcards.sample}_T --normal_sample {wildcards.sample}_N --bam_output {output.tnscope_bam} "
             "{params.callsettings} {output.tnscope}"
