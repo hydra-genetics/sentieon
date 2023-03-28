@@ -153,6 +153,44 @@ rule qualcal:
     shell:
         "{params.sentieon} driver -t {threads} -r {params.reference} -i {input.bam} --algo QualCal -k {params.mills} -k {params.dbsnp} {output}"
 
+rule dnascope:
+    input:
+        bam="sentieon/dedup/{sample}_{type}_DEDUP.bam",
+    output:
+        dnascope_vcf="sentieon/dnascope/{sample}_{type}_DNAscope.vcf",
+        dnascope_idx="sentieon/dnascope/{sample}_{type}_DNAscope.vcf.idx",
+    params:
+        extra=config.get("sentieon", {}).get("extra", ""),
+        reference=config.get("sentieon", {}).get("reference", ""),
+        sentieon=config.get("sentieon", {}).get("sentieon", ""),
+        callsettings=config.get("sentieon", {}).get("dnascope_settings", ""),
+        model=config.get("sentieon", {}).get("dnascope_model", ""),
+        dbsnp=config.get("sentieon", {}).get("dbsnp", ""),
+    log:
+        "sentieon/dnascope/{sample}.output.log",
+    benchmark:
+        repeat(
+            "sentieon/dnascope/{sample}.output.benchmark.tsv",
+            config.get("sentieon", {}).get("benchmark_repeats", 1)
+        )
+    threads: config.get("sentieon", {}).get("threads", config["default_resources"]["threads"])
+    resources:
+        mem_mb=config.get("sentieon", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
+        mem_per_cpu=config.get("sentieon", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
+        partition=config.get("sentieon", {}).get("partition", config["default_resources"]["partition"]),
+        threads=config.get("sentieon", {}).get("threads", config["default_resources"]["threads"]),
+        time=config.get("sentieon", {}).get("time", config["default_resources"]["time"]),
+    container:
+        config.get("sentieon", {}).get("container", config["default_container"])
+    conda:
+        "../envs/sentieon.yaml"
+    message:
+        "{rule}: Call germline SNVs and indels in {input.bam} using Sentieon DNAScope"
+    shell:
+        "{params.sentieon} driver -t {threads} -r {params.reference} "
+            "-i {input.bam} --algo DNAscope -d {params.dbsnp} "
+            "--var_type snp,indel --model {params.model} {params.callsettings} {output.dnascope_vcf}"
+
 rule tnscope:
     input:
         tumorbam="sentieon/realign/{sample}_T_REALIGNED.bam",
