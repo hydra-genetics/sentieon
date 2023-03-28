@@ -167,10 +167,10 @@ rule dnascope:
         model=config.get("sentieon", {}).get("dnascope_model", ""),
         dbsnp=config.get("sentieon", {}).get("dbsnp", ""),
     log:
-        "sentieon/dnascope/{sample}.output.log",
+        "sentieon/dnascope/{sample}_{type}.output.log",
     benchmark:
         repeat(
-            "sentieon/dnascope/{sample}.output.benchmark.tsv",
+            "sentieon/dnascope/{sample}_{type}.output.benchmark.tsv",
             config.get("sentieon", {}).get("benchmark_repeats", 1)
         )
     threads: config.get("sentieon", {}).get("threads", config["default_resources"]["threads"])
