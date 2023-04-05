@@ -60,4 +60,17 @@ def compile_output_list(wildcards):
         for sample in get_samples(samples)
         for t in get_unit_types(units, sample)
     ]
+    output_files.append(
+        [
+            "sentieon/tnscope/{}_TNscope_tn.vcf".format(sample)
+            for sample in get_samples(samples)
+        ]
+    )
+    output_files.append(
+        [
+            "sentieon/dnascope/{}_{}_DNAscope_modelfiltered.vcf".format(sample, t)
+            for sample in get_samples(samples)
+            for t in get_unit_types(units, sample)
+        ]
+    )
     return output_files

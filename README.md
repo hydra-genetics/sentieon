@@ -87,7 +87,9 @@ The following output files should be targeted via another rule:
 |---|---|
 | `sentieon/realign/{sample}_{type}_REALIGNED.bam` | Aligned data, duplicates removed and indels realigned |
 | `sentieon/qualcal/{sample}_{type}_RECAL_DATA.TABLE` | Recalibration table |
-| `sentieon/tnscope/{sample}_TNscope_tn.vcf` | Output vcf |
+| `sentieon/tnscope/{sample}_TNscope_tn.vcf` | Output SNVs/indels vcf for tumor with matched normal |
+| `sentieon/dnascope/{sample}_{type}_DNAscope_modelfiltered.vcf` | Output SNVs/indels vcf for germline |
+
 
 
 ## :judge: Rule Graph
