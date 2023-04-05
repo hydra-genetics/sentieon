@@ -35,7 +35,7 @@ rule bwa_mem:
         "{rule}: Align fastq files {input.reads} using Sentieon bwa mem against {params.reference}"
     shell:
         "{params.sentieon} bwa mem "
-            "-M -R '@RG\\tID:{wildcards.sample}\\tSM:{wildcards.sample}\\tPL:ILLUMINA' "
+            "-M -R '@RG\\tID:{wildcards.sample}_{wildcards.type}\\tSM:{wildcards.sample}_{wildcards.type}\\tPL:ILLUMINA' "
             "-t {threads} {params.reference} {input.reads} "
         "| {params.sentieon} util sort -o {output.bam} -t {threads} --sam2bam -i -"
 
