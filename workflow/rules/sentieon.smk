@@ -185,7 +185,7 @@ rule dnascope:
     conda:
         "../envs/sentieon.yaml"
     message:
-        "{rule}: Call germline SNVs and indels in {input.bam} using Sentieon DNAScope"
+        "{rule}: Call germline SNVs and structural variants in {input.bam} using Sentieon DNAScope"
     shell:
         "{params.sentieon} driver -t {threads} -r {params.reference} "
             "-i {input.bam} --algo DNAscope -d {params.dbsnp} "
