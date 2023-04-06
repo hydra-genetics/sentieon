@@ -14,7 +14,7 @@
 
 ## :speech_balloon: Introduction
 
-The module consists of tools from Sentieon, including alignment, duplicate reads removal, indel realignment, recalibration table calculation and TNScope SNV/structural variants caller.
+The module consists of tools from Sentieon, including alignment, duplicate reads removal, indel realignment, recalibration table calculation and DNAScope and TNScope SNV/structural variants callers.
 
 ## :heavy_exclamation_mark: Dependencies
 
@@ -87,7 +87,7 @@ The following output files should be targeted via another rule:
 |---|---|
 | `sentieon/realign/{sample}_{type}_REALIGNED.bam` | Aligned data, duplicates removed and indels realigned |
 | `sentieon/qualcal/{sample}_{type}_RECAL_DATA.TABLE` | Recalibration table |
-| `sentieon/tnscope/{sample}_TNscope_tn.vcf` | Output SNVs/indels vcf for tumor with matched normal |
+| `sentieon/tnscope/{sample}_TNscope_tn_ML.vcf` | Output SNVs/indels vcf for tumor with matched normal |
 | `sentieon/dnascope/{sample}_{type}_DNAscope_modelfiltered.vcf` | Output SNVs/indels vcf for germline |
 
 
