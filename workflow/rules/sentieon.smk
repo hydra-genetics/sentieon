@@ -298,7 +298,7 @@ rule tnscope_modelfilter:
     conda:
         "../envs/sentieon.yaml"
     message:
-        "{rule}: Call SNVs and structural variants in {input.tumorbam} using matched normal {input.normalbam} using Sentieon TNScope"
+        "{rule}: Apply machine learning model on the TNScope vcf {input.tnscopevcf} to help with variant filtration using Sentieon TNModelApply"
     shell:
         "{params.sentieon} driver -t {params.threads} -r {params.reference} "
         "--algo TNModelApply -m {params.model} -v {input.tnscopevcf} {output.vcf}"
