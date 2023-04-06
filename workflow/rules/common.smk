@@ -62,7 +62,7 @@ def compile_output_list(wildcards):
     ]
     output_files.append(
         [
-            "sentieon/tnscope/{}_TNscope_tn.vcf".format(sample)
+            "sentieon/tnscope/{}_TNscope_tn_ML.vcf".format(sample)
             for sample in get_samples(samples)
         ]
     )

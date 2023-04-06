@@ -265,3 +265,40 @@ rule tnscope:
             "-i {input.tumorbam} -q {input.tumortable} -i {input.normalbam} -q {input.normaltable} "
             "--algo TNscope --tumor_sample {wildcards.sample}_T --normal_sample {wildcards.sample}_N --bam_output {output.tnscope_bam} "
             "{params.callsettings} {output.tnscope}"
+
+rule tnscope_modelfilter:
+    input:
+        tnscopevcf="sentieon/tnscope/{sample}_TNscope_tn.vcf",
+        tnscopeidx="sentieon/tnscope/{sample}_TNscope_tn.vcf",
+    output:
+        vcf="sentieon/tnscope/{sample}_TNscope_tn_ML.vcf",
+        idx="sentieon/tnscope/{sample}_TNscope_tn_ML.vcf.idx",
+    params:
+        extra=config.get("sentieon", {}).get("extra", ""),
+        reference=config.get("sentieon", {}).get("reference", ""),
+        sentieon=config.get("sentieon", {}).get("sentieon", ""),
+        callsettings=config.get("sentieon", {}).get("tnscope_settings", ""),
+        model=config.get("sentieon", {}).get("tnscope_model", ""),
+    log:
+        "sentieon/tnscope/{sample}.output.log",
+    benchmark:
+        repeat(
+            "sentieon/tnscope/{sample}.output.benchmark.tsv",
+            config.get("sentieon", {}).get("benchmark_repeats", 1)
+        )
+    threads: config.get("tnscope", {}).get("threads", config["default_resources"]["threads"])
+    resources:
+        mem_mb=config.get("sentieon", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
+        mem_per_cpu=config.get("sentieon", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
+        partition=config.get("sentieon", {}).get("partition", config["default_resources"]["partition"]),
+        threads=config.get("tnscope", {}).get("threads", config["default_resources"]["threads"]),
+        time=config.get("sentieon", {}).get("time", config["default_resources"]["time"]),
+    container:
+        config.get("sentieon", {}).get("container", config["default_container"])
+    conda:
+        "../envs/sentieon.yaml"
+    message:
+        "{rule}: Call SNVs and structural variants in {input.tumorbam} using matched normal {input.normalbam} using Sentieon TNScope"
+    shell:
+        "{params.sentieon} driver -t {params.threads} -r {params.reference} "
+        "--algo TNModelApply -m {params.model} -v {input.tnscopevcf} {output.vcf}"
