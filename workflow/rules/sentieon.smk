@@ -300,5 +300,5 @@ rule tnscope_modelfilter:
     message:
         "{rule}: Apply machine learning model on the TNScope vcf {input.tnscopevcf} to help with variant filtration using Sentieon TNModelApply"
     shell:
-        "{params.sentieon} driver -t {params.threads} -r {params.reference} "
+        "{params.sentieon} driver -t {threads} -r {params.reference} "
         "--algo TNModelApply -m {params.model} -v {input.tnscopevcf} {output.vcf}"
