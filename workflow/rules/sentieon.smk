@@ -282,18 +282,18 @@ rule tnscope:
     message:
         "{rule}: Call SNVs and structural variants in {input.tumorbam} using matched normal {input.normalbam} using Sentieon TNScope"
     shell:
-        "{params.sentieon} driver" 
-        "-t {threads}" 
+        "{params.sentieon} driver "
+        "-t {threads} "
         "-r {params.reference} "
-            "-i {input.tumorbam}" 
-            "-q {input.tumortable}" 
-            "-i {input.normalbam}" 
-            "-q {input.normaltable} "
-            "--algo TNscope" 
-            "--tumor_sample {wildcards.sample}_T" 
-            "--normal_sample {wildcards.sample}_N" 
-            "--bam_output {output.tnscope_bam} "
-            "{params.callsettings} {output.tnscope}"
+        "-i {input.tumorbam} "
+        "-q {input.tumortable} "
+        "-i {input.normalbam} "
+        "-q {input.normaltable} "
+        "--algo TNscope "
+        "--tumor_sample {wildcards.sample}_T "
+        "--normal_sample {wildcards.sample}_N "
+        "--bam_output {output.tnscope_bam} "
+        "{params.callsettings} {output.tnscope} &> {log}"
 
 rule tnscope_modelfilter:
     input:
