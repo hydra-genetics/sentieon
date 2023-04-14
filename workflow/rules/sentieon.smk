@@ -244,11 +244,11 @@ rule dnascope_modelfilter:
     message:
         "{rule}: Modify the dnascope vcf {input.vcf} by adding the MLrejected filter to the variants using Sentieon DNAModelApply"
     shell:
-        "{params.sentieon} driver -t {threads}" 
-        "-r {params.reference}" 
-        "--algo DNAModelApply" 
-        "--model {params.model}" 
-        "-v {input.vcf} {output.vcf}"
+        "{params.sentieon} driver -t {threads} "
+        "-r {params.reference} "
+        "--algo DNAModelApply "
+        "--model {params.model} "
+        "-v {input.vcf} {output.vcf} &> {log}"
 
 rule tnscope:
     input:
