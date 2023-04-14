@@ -204,6 +204,7 @@ rule dnascope:
         "--var_type snp,indel "
         "--model {params.model} {params.callsettings} {output.dnascope_vcf} &> {log}"
 
+
 rule dnascope_modelfilter:
     input:
         vcf="sentieon/dnascope/{sample}_{type}_DNAscope.vcf",
