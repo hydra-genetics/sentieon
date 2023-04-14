@@ -191,14 +191,14 @@ rule dnascope:
     message:
         "{rule}: Call germline SNVs and structural variants in {input.bam} using Sentieon DNAScope"
     shell:
-        "{params.sentieon} driver" 
-        "-t {threads}" 
+        "{params.sentieon} driver "
+        "-t {threads} "
         "-r {params.reference} "
-            "-i {input.bam}" 
-            "--algo DNAscope" 
-            "-d {params.dbsnp} "
-            "--var_type snp,indel" 
-            "--model {params.model} {params.callsettings} {output.dnascope_vcf}"
+        "-i {input.bam} "
+        "--algo DNAscope "
+        "-d {params.dbsnp} "
+        "--var_type snp,indel "
+        "--model {params.model} {params.callsettings} {output.dnascope_vcf} &> {log}"
 
 rule dnascope_modelfilter:
     input:
