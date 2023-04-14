@@ -72,20 +72,20 @@ rule dedup:
     message:
         "{rule}: Mark/remove duplicate reads in bam file {input} using Sentieon dedup algorithm"
     shell:
-        "{params.sentieon} driver" 
-            "-t {threads} "
-            "-i {input} "
-            "--algo LocusCollector "
-            "--fun score_info "
-            "sentieon/dedup/{wildcards.sample}_{wildcards.type}_DEDUP_score.txt ;"
         "{params.sentieon} driver "
-            "-t {threads} "
-            "-i {input} "
-            "--algo Dedup "
-            "--rmdup "
-            "--score_info sentieon/dedup/{wildcards.sample}_{wildcards.type}_DEDUP_score.txt "
-            "--metrics sentieon/dedup/{wildcards.sample}_{wildcards.type}_DEDUP.txt "
-            "sentieon/dedup/{wildcards.sample}_{wildcards.type}_DEDUP.bam"
+        "-t {threads} "
+        "-i {input} "
+        "--algo LocusCollector "
+        "--fun score_info "
+        "sentieon/dedup/{wildcards.sample}_{wildcards.type}_DEDUP_score.txt ; "
+        "{params.sentieon} driver "
+        "-t {threads} "
+        "-i {input} "
+        "--algo Dedup "
+        "--rmdup "
+        "--score_info sentieon/dedup/{wildcards.sample}_{wildcards.type}_DEDUP_score.txt "
+        "--metrics sentieon/dedup/{wildcards.sample}_{wildcards.type}_DEDUP.txt "
+        "sentieon/dedup/{wildcards.sample}_{wildcards.type}_DEDUP.bam &> {log}"
 
 rule realigner:
     input:
