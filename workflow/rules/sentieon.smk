@@ -29,8 +29,6 @@ rule bwa_mem:
         time=config.get("sentieon", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("sentieon", {}).get("container", config["default_container"])
-    conda:
-        "../envs/sentieon.yaml"
     message:
         "{rule}: Align fastq files {input.reads} using Sentieon bwa mem against {params.reference}"
     shell:
@@ -68,8 +66,6 @@ rule dedup:
         time=config.get("sentieon", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("sentieon", {}).get("container", config["default_container"])
-    conda:
-        "../envs/sentieon.yaml"
     message:
         "{rule}: Mark/remove duplicate reads in bam file {input} using Sentieon dedup algorithm"
     shell:
@@ -112,8 +108,6 @@ rule realigner:
         time=config.get("sentieon", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("sentieon", {}).get("container", config["default_container"])
-    conda:
-        "../envs/sentieon.yaml"
     message:
         "{rule}: Indel realignment of bam file {input.bam} using Sentieon realigner"
     shell:
@@ -149,8 +143,6 @@ rule qualcal:
         time=config.get("sentieon", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("sentieon", {}).get("container", config["default_container"])
-    conda:
-        "../envs/sentieon.yaml"
     message:
         "{rule}: Calculate recalibration table of {input.bam} using Sentieon QualCal algorithm"
     shell:
@@ -189,8 +181,6 @@ rule dnascope:
         time=config.get("sentieon", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("sentieon", {}).get("container", config["default_container"])
-    conda:
-        "../envs/sentieon.yaml"
     message:
         "{rule}: Call germline SNVs and structural variants in {input.bam} using Sentieon DNAScope"
     shell:
@@ -232,8 +222,6 @@ rule dnascope_modelfilter:
         time=config.get("sentieon", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("sentieon", {}).get("container", config["default_container"])
-    conda:
-        "../envs/sentieon.yaml"
     message:
         "{rule}: Modify the dnascope vcf {input.vcf} by adding the MLrejected filter to the variants using Sentieon DNAModelApply"
     shell:
@@ -271,8 +259,6 @@ rule tnscope:
         time=config.get("sentieon", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("sentieon", {}).get("container", config["default_container"])
-    conda:
-        "../envs/sentieon.yaml"
     message:
         "{rule}: Call SNVs and structural variants in {input.tumorbam} using matched normal {input.normalbam} using Sentieon TNScope"
     shell:
@@ -316,8 +302,6 @@ rule tnscope_modelfilter:
         time=config.get("sentieon", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("sentieon", {}).get("container", config["default_container"])
-    conda:
-        "../envs/sentieon.yaml"
     message:
         "{rule}: Apply machine learning model on the TNScope vcf {input.tnscopevcf} to help with variant filtration using Sentieon TNModelApply"
     shell:
