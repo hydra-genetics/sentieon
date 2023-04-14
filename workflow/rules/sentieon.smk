@@ -162,6 +162,7 @@ rule qualcal:
         "-k {params.mills} "
         "-k {params.dbsnp} {output} &> {log}"
 
+
 rule dnascope:
     input:
         bam="sentieon/dedup/{sample}_{type}_DEDUP.bam",
