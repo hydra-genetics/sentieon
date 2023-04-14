@@ -42,6 +42,7 @@ rule bwa_mem:
         "--sam2bam "
         "-i - &> {log}"
 
+
 rule dedup:
     input:
         lambda wildcards: [
