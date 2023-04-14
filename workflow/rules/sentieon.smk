@@ -37,7 +37,10 @@ rule bwa_mem:
         "{params.sentieon} bwa mem "
             "-M -R '@RG\\tID:{wildcards.sample}_{wildcards.type}\\tSM:{wildcards.sample}_{wildcards.type}\\tPL:ILLUMINA' "
             "-t {threads} {params.reference} {input.reads} "
-        "| {params.sentieon} util sort -o {output.bam} -t {threads} --sam2bam -i -"
+        "| {params.sentieon} util sort -o {output.bam}"
+        "-t {threads}" 
+        "--sam2bam" 
+        "-i -"
 
 rule dedup:
     input:
@@ -72,7 +75,8 @@ rule dedup:
     message:
         "{rule}: Mark/remove duplicate reads in bam file {input} using Sentieon dedup algorithm"
     shell:
-        "{params.sentieon} driver -t {threads} "
+        "{params.sentieon} driver" 
+            "-t {threads} "
             "-i {input} "
             "--algo LocusCollector "
             "--fun score_info "
@@ -117,7 +121,12 @@ rule realigner:
     message:
         "{rule}: Indel realignment of bam file {input.bam} using Sentieon realigner"
     shell:
-        "{params.sentieon} driver -t {threads} -r {params.reference} -i {input.bam} --algo Realigner -k {params.mills} {output}"
+        "{params.sentieon} driver" 
+        "-t {threads}" 
+        "-r {params.reference}" 
+        "-i {input.bam}" 
+        "--algo Realigner" 
+        "-k {params.mills} {output}"
 
 rule qualcal:
     input:
@@ -151,7 +160,13 @@ rule qualcal:
     message:
         "{rule}: Calculate recalibration table of {input.bam} using Sentieon QualCal algorithm"
     shell:
-        "{params.sentieon} driver -t {threads} -r {params.reference} -i {input.bam} --algo QualCal -k {params.mills} -k {params.dbsnp} {output}"
+        "{params.sentieon} driver" 
+        "-t {threads}" 
+        "-r {params.reference}" 
+        "-i {input.bam}" 
+        "--algo QualCal" 
+        "-k {params.mills}" 
+        "-k {params.dbsnp} {output}"
 
 rule dnascope:
     input:
@@ -187,9 +202,14 @@ rule dnascope:
     message:
         "{rule}: Call germline SNVs and structural variants in {input.bam} using Sentieon DNAScope"
     shell:
-        "{params.sentieon} driver -t {threads} -r {params.reference} "
-            "-i {input.bam} --algo DNAscope -d {params.dbsnp} "
-            "--var_type snp,indel --model {params.model} {params.callsettings} {output.dnascope_vcf}"
+        "{params.sentieon} driver" 
+        "-t {threads}" 
+        "-r {params.reference} "
+            "-i {input.bam}" 
+            "--algo DNAscope" 
+            "-d {params.dbsnp} "
+            "--var_type snp,indel" 
+            "--model {params.model} {params.callsettings} {output.dnascope_vcf}"
 
 rule dnascope_modelfilter:
     input:
@@ -224,7 +244,11 @@ rule dnascope_modelfilter:
     message:
         "{rule}: Modify the dnascope vcf {input.vcf} by adding the MLrejected filter to the variants using Sentieon DNAModelApply"
     shell:
-        "{params.sentieon} driver -t {threads} -r {params.reference} --algo DNAModelApply --model {params.model} -v {input.vcf} {output.vcf}"
+        "{params.sentieon} driver -t {threads}" 
+        "-r {params.reference}" 
+        "--algo DNAModelApply" 
+        "--model {params.model}" 
+        "-v {input.vcf} {output.vcf}"
 
 rule tnscope:
     input:
@@ -261,9 +285,17 @@ rule tnscope:
     message:
         "{rule}: Call SNVs and structural variants in {input.tumorbam} using matched normal {input.normalbam} using Sentieon TNScope"
     shell:
-        "{params.sentieon} driver -t {threads} -r {params.reference} "
-            "-i {input.tumorbam} -q {input.tumortable} -i {input.normalbam} -q {input.normaltable} "
-            "--algo TNscope --tumor_sample {wildcards.sample}_T --normal_sample {wildcards.sample}_N --bam_output {output.tnscope_bam} "
+        "{params.sentieon} driver" 
+        "-t {threads}" 
+        "-r {params.reference} "
+            "-i {input.tumorbam}" 
+            "-q {input.tumortable}" 
+            "-i {input.normalbam}" 
+            "-q {input.normaltable} "
+            "--algo TNscope" 
+            "--tumor_sample {wildcards.sample}_T" 
+            "--normal_sample {wildcards.sample}_N" 
+            "--bam_output {output.tnscope_bam} "
             "{params.callsettings} {output.tnscope}"
 
 rule tnscope_modelfilter:
@@ -300,5 +332,9 @@ rule tnscope_modelfilter:
     message:
         "{rule}: Apply machine learning model on the TNScope vcf {input.tnscopevcf} to help with variant filtration using Sentieon TNModelApply"
     shell:
-        "{params.sentieon} driver -t {threads} -r {params.reference} "
-        "--algo TNModelApply -m {params.model} -v {input.tnscopevcf} {output.vcf}"
+        "{params.sentieon} driver" 
+        "-t {threads}" 
+        "-r {params.reference} "
+        "--algo TNModelApply" 
+        "-m {params.model}" 
+        "-v {input.tnscopevcf} {output.vcf}"
