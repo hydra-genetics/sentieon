@@ -217,7 +217,7 @@ rule dnascope_modelfilter:
     benchmark:
         repeat(
             "sentieon/dnascope/{sample}_{type}_modelfilter.output.benchmark.tsv",
-            config.get("sentieon", {}).get("benchmark_repeats", 1)
+            config.get("sentieon", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("sentieon", {}).get("threads", config["default_resources"]["threads"])
     resources:
