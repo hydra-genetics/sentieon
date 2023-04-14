@@ -151,13 +151,13 @@ rule qualcal:
     message:
         "{rule}: Calculate recalibration table of {input.bam} using Sentieon QualCal algorithm"
     shell:
-        "{params.sentieon} driver" 
-        "-t {threads}" 
-        "-r {params.reference}" 
-        "-i {input.bam}" 
-        "--algo QualCal" 
-        "-k {params.mills}" 
-        "-k {params.dbsnp} {output}"
+        "{params.sentieon} driver "
+        "-t {threads} "
+        "-r {params.reference} "
+        "-i {input.bam} "
+        "--algo QualCal "
+        "-k {params.mills} "
+        "-k {params.dbsnp} {output} &> {log}"
 
 rule dnascope:
     input:
