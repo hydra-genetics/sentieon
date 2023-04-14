@@ -88,6 +88,7 @@ rule dedup:
         "--metrics sentieon/dedup/{wildcards.sample}_{wildcards.type}_DEDUP.txt "
         "sentieon/dedup/{wildcards.sample}_{wildcards.type}_DEDUP.bam &> {log}"
 
+
 rule realigner:
     input:
         bam="sentieon/dedup/{sample}_{type}_DEDUP.bam",
