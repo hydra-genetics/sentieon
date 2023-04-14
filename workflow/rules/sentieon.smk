@@ -18,7 +18,7 @@ rule bwa_mem:
     benchmark:
         repeat(
             "sentieon/bwa_mem/{sample}_{flowcell}_{lane}_{barcode}_{type}.output.benchmark.tsv",
-            config.get("sentieon", {}).get("benchmark_repeats", 1)
+            config.get("sentieon", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("sentieon", {}).get("threads", config["default_resources"]["threads"])
     resources:
