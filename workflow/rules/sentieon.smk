@@ -267,10 +267,7 @@ rule tnscope:
     log:
         "sentieon/tnscope/{sample}.output.log",
     benchmark:
-        repeat(
-            "sentieon/tnscope/{sample}.output.benchmark.tsv",
-            config.get("sentieon", {}).get("benchmark_repeats", 1)
-        )
+        repeat("sentieon/tnscope/{sample}.output.benchmark.tsv", config.get("sentieon", {}).get("benchmark_repeats", 1))
     threads: config.get("tnscope", {}).get("threads", config["default_resources"]["threads"])
     resources:
         mem_mb=config.get("sentieon", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
