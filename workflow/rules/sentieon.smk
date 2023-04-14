@@ -124,6 +124,7 @@ rule realigner:
         "--algo Realigner " 
         "-k {params.mills} {output} &> {log}"
 
+
 rule qualcal:
     input:
         bam="sentieon/realign/{sample}_{type}_REALIGNED.bam",
