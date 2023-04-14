@@ -290,6 +290,7 @@ rule tnscope:
         "--bam_output {output.tnscope_bam} "
         "{params.callsettings} {output.tnscope} &> {log}"
 
+
 rule tnscope_modelfilter:
     input:
         tnscopevcf="sentieon/tnscope/{sample}_TNscope_tn.vcf",
