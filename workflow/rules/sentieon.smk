@@ -37,10 +37,10 @@ rule bwa_mem:
         "{params.sentieon} bwa mem "
         "-M -R '@RG\\tID:{wildcards.sample}_{wildcards.type}\\tSM:{wildcards.sample}_{wildcards.type}\\tPL:ILLUMINA' "
         "-t {threads} {params.reference} {input.reads} "
-        "| {params.sentieon} util sort -o {output.bam}"
-        "-t {threads}" 
-        "--sam2bam" 
-        "-i -"
+        "| {params.sentieon} util sort -o {output.bam} "
+        "-t {threads} "
+        "--sam2bam "
+        "-i - &> {log}"
 
 rule dedup:
     input:
