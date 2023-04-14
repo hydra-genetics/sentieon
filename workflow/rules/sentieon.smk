@@ -117,11 +117,11 @@ rule realigner:
     message:
         "{rule}: Indel realignment of bam file {input.bam} using Sentieon realigner"
     shell:
-        "{params.sentieon} driver " 
-        "-t {threads} " 
-        "-r {params.reference} " 
-        "-i {input.bam} " 
-        "--algo Realigner " 
+        "{params.sentieon} driver "
+        "-t {threads} "
+        "-r {params.reference} "
+        "-i {input.bam} "
+        "--algo Realigner "
         "-k {params.mills} {output} &> {log}"
 
 
