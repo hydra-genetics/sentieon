@@ -244,6 +244,7 @@ rule dnascope_modelfilter:
         "--model {params.model} "
         "-v {input.vcf} {output.vcf} &> {log}"
 
+
 rule tnscope:
     input:
         tumorbam="sentieon/realign/{sample}_T_REALIGNED.bam",
