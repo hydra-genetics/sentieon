@@ -8,16 +8,16 @@ rule bwa_mem:
     input:
         reads=lambda wildcards: alignment_input(wildcards),
     output:
-        bam=temp("sentieon/bwa_mem/{sample}_{flowcell}_{lane}_{barcode}_{type}.bam"),
+        bam=temp("sentieon/bwa_mem/{sample}_{type}_{flowcell}_{lane}_{barcode}.bam"),
     params:
         extra=config.get("sentieon", {}).get("extra", ""),
         reference=config.get("sentieon", {}).get("reference", ""),
         sentieon=config.get("sentieon", {}).get("sentieon", ""),
     log:
-        "sentieon/bwa_mem/{sample}_{flowcell}_{lane}_{barcode}_{type}.output.log",
+        "sentieon/bwa_mem/{sample}_{type}_{flowcell}_{lane}_{barcode}.output.log",
     benchmark:
         repeat(
-            "sentieon/bwa_mem/{sample}_{flowcell}_{lane}_{barcode}_{type}.output.benchmark.tsv",
+            "sentieon/bwa_mem/{sample}_{type}_{flowcell}_{lane}_{barcode}.output.benchmark.tsv",
             config.get("sentieon", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("sentieon", {}).get("threads", config["default_resources"]["threads"])
@@ -44,7 +44,7 @@ rule bwa_mem:
 rule dedup:
     input:
         lambda wildcards: [
-            "sentieon/bwa_mem/{sample}_%s_%s_%s_{type}.bam" % (u.flowcell, u.lane, u.barcode)
+            "sentieon/bwa_mem/{sample}_{type}_%s_%s_%s.bam" % (u.flowcell, u.lane, u.barcode)
             for u in get_units(units, wildcards)
         ],
     output:
