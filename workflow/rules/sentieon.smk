@@ -9,6 +9,7 @@ rule bwa_mem:
         reads=lambda wildcards: alignment_input(wildcards),
     output:
         bam=temp("sentieon/bwa_mem/{sample}_{type}_{flowcell}_{lane}_{barcode}.bam"),
+        bai=temp("sentieon/bwa_mem/{sample}_{type}_{flowcell}_{lane}_{barcode}.bam.bai"),
     params:
         extra=config.get("sentieon", {}).get("extra", ""),
         reference=config.get("sentieon", {}).get("reference", ""),
@@ -49,6 +50,7 @@ rule dedup:
         ],
     output:
         temp("sentieon/dedup/{sample}_{type}_DEDUP.bam"),
+        temp("sentieon/dedup/{sample}_{type}_DEDUP.bam.bai"),
         "sentieon/dedup/{sample}_{type}_DEDUP.txt",
     params:
         extra=config.get("sentieon", {}).get("extra", ""),
@@ -88,8 +90,10 @@ rule dedup:
 rule realigner:
     input:
         bam="sentieon/dedup/{sample}_{type}_DEDUP.bam",
+        bai="sentieon/dedup/{sample}_{type}_DEDUP.bam.bai",
     output:
-        "sentieon/realign/{sample}_{type}_REALIGNED.bam",
+        bam="sentieon/realign/{sample}_{type}_REALIGNED.bam",
+        bai="sentieon/realign/{sample}_{type}_REALIGNED.bam.bai",
     params:
         extra=config.get("sentieon", {}).get("extra", ""),
         reference=config.get("sentieon", {}).get("reference", ""),
@@ -116,7 +120,7 @@ rule realigner:
         "-r {params.reference} "
         "-i {input.bam} "
         "--algo Realigner "
-        "-k {params.mills} {output} &> {log}"
+        "-k {params.mills} {output.bam} &> {log}"
 
 
 rule qualcal:
