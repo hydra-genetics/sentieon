@@ -36,15 +36,17 @@ jobs:
     name: Lint workflow
     runs-on: ubuntu-latest
     steps:
-      - name: Check out the repo
-        uses: actions/checkout@v4
-      - name: Linting
-        uses: snakemake/snakemake-github-action@v1.24.0
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
-          directory: ".tests/integration"
-          snakefile: "workflow/Snakefile"
-          args: "--lint --configfiles .tests/integration/config.yaml"
-          stagein: "pip install -r requirements.txt"
+          python-version: "3.8"
+          cache: "pip"
+          cache-dependency-path: requirements.txt
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Linting
+        working-directory: .tests/integration
+        run: snakemake --lint -n -s ../../workflow/Snakefile --configfile config.yaml
 
   pycodestyle:
     name: pycodestyle
