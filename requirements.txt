@@ -1,6 +1,6 @@
-hydra-genetics==2.0.0
+# TODO: swap for a PyPI pin once a hydra-genetics release supports Snakemake 9 / Python 3.12.
+# The latest release (4.1.1) and both upstream master/develop still annotate with
+# snakemake.io.Wildcards, which Snakemake 9 no longer exports -> ImportError at parse time.
+hydra-genetics @ git+https://github.com/hydra-genetics/hydra-genetics.git@migrate-to-snakemake9-python3.12
 pandas>=1.3.1
-singularity==3.0.0
-snakemake>=7.13.0,<8
-tabulate<0.9.0
-pulp<2.8
+snakemake>=9.0.0,<10
