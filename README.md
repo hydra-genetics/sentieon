@@ -2,13 +2,7 @@
 
 #### sentieon tools
 
-![Lint](https://github.com/hydra-genetics/sentieon/actions/workflows/lint.yaml/badge.svg?branch=develop)
-![Snakefmt](https://github.com/hydra-genetics/sentieon/actions/workflows/snakefmt.yaml/badge.svg?branch=develop)
-![snakemake dry run](https://github.com/hydra-genetics/sentieon/actions/workflows/snakemake-dry-run.yaml/badge.svg?branch=develop)
-![integration test](https://github.com/hydra-genetics/sentieon/actions/workflows/integration1.yaml/badge.svg?branch=develop)
-
-![pycodestyle](https://github.com/hydra-genetics/sentieon/actions/workflows/pycodestyl.yaml/badge.svg?branch=develop)
-![pytest](https://github.com/hydra-genetics/sentieon/actions/workflows/pytest.yaml/badge.svg?branch=develop)
+![CI](https://github.com/hydra-genetics/sentieon/actions/workflows/ci.yaml/badge.svg?branch=develop)
 
 [![License: GPL-3](https://img.shields.io/badge/License-GPL3-yellow.svg)](https://opensource.org/licenses/gpl-3.0.html)
 
@@ -20,11 +14,11 @@ The module consists of tools from Sentieon, including alignment, duplicate reads
 
 In order to use this module, the following dependencies are required:
 
-[![hydra-genetics](https://img.shields.io/badge/hydragenetics-v0.9.1-blue)](https://github.com/hydra-genetics/)
+[![hydra-genetics](https://img.shields.io/badge/hydragenetics-snakemake9%20branch-blue)](https://github.com/hydra-genetics/hydra-genetics/tree/migrate-to-snakemake9-python3.12)
 [![pandas](https://img.shields.io/badge/pandas-1.3.1-blue)](https://pandas.pydata.org/)
-[![python](https://img.shields.io/badge/python-3.8-blue)
-[![snakemake](https://img.shields.io/badge/snakemake-6.8.0-blue)](https://snakemake.readthedocs.io/en/stable/)
-[![singularity](https://img.shields.io/badge/singularity-3.0.0-blue)](https://sylabs.io/docs/)
+[![python](https://img.shields.io/badge/python-3.12-blue)](https://www.python.org/)
+[![snakemake](https://img.shields.io/badge/snakemake-9.0.0-blue)](https://snakemake.readthedocs.io/en/stable/)
+[![apptainer](https://img.shields.io/badge/apptainer-1.4.5-blue)](https://apptainer.org/)
 
 ## :school_satchel: Preparations
 
@@ -55,7 +49,7 @@ The workflow repository contains a small test dataset `.tests/integration` which
 
 ```bash
 $ cd .tests/integration
-$ snakemake -s ../../Snakefile -j1 --use-singularity
+$ snakemake -s ../../workflow/Snakefile -j1 --software-deployment-method apptainer
 ```
 
 ## :rocket: Usage

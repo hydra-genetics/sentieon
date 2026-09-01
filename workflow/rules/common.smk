@@ -3,6 +3,9 @@ __copyright__ = "Copyright 2023, Hanna Soderstrom"
 __email__ = "hanna.soderstrom@gu.se"
 __license__ = "GPL-3"
 
+import re
+import sys
+
 import pandas as pd
 from snakemake.utils import validate
 from snakemake.utils import min_version
@@ -11,7 +14,7 @@ from hydra_genetics.utils.resources import load_resources
 from hydra_genetics.utils.samples import *
 from hydra_genetics.utils.units import *
 
-min_version("6.8.0")
+min_version("9.0.0")
 
 ### Set and validate config file
 
@@ -32,7 +35,7 @@ validate(samples, schema="../schemas/samples.schema.yaml")
 ### Read and validate units file
 
 units = (
-    pandas.read_table(config["units"], dtype=str)
+    pd.read_table(config["units"], dtype=str)
     .set_index(["sample", "type", "flowcell", "lane", "barcode"], drop=False)
     .sort_index()
 )
@@ -42,7 +45,7 @@ validate(units, schema="../schemas/units.schema.yaml")
 
 
 wildcard_constraints:
-    sample="|".join(samples.index),
+    sample="|".join(re.escape(s) for s in samples.index),
     type="N|T|R",
 
 
